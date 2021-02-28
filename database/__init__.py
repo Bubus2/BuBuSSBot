@@ -1,3 +1,3 @@
-from . import db
+import database
 
 db.build()

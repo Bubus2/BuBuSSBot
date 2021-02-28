@@ -1,8 +1,8 @@
 from sqlite3 import connect
 from os.path import isfile
 
-DB_PATH = "./data/db/database.sqlite3"
-BUILD_PATH = "./data/db/build.sql"
+DB_PATH = "./database/database.sqlite3"
+BUILD_PATH = "./database/build.sql"
 
 # we don't use connection pool
 connection = connect(DB_PATH, check_same_thread=False)
