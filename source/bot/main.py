@@ -3,10 +3,12 @@ from discord.ext.commands import CommandNotFound
 from discord import Intents
 from discord import Embed
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from ..database import database
+
 # Prefix for chat commands
 PREFIX = "."
-# User ID from Discord
 OWNER_ID = [305379360452640778]
+# User ID from Discord
 # Guild (server) ID from Discord
 GUILD_ID = 528544644678680576
 
@@ -15,7 +17,7 @@ class Bot(Base):
         self.PREFIX = PREFIX
         self.ready = False
         self.guild = None
-        self.scheduler = AsyncIOScheduler()
+        self.scheduler.start()
 
         super().__init__(
             command_prefix=PREFIX, 
