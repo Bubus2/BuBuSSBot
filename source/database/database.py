@@ -1,12 +1,13 @@
 from sqlite3 import connect
 from os.path import isfile
 from apscheduler.triggers.cron import CronTrigger
+
 DB_PATH = "./data/database/database.sqlite3"
 BUILD_PATH = "./data/database/build.sql"
 
 # we don't use connection pool
 connection = connect(DB_PATH, check_same_thread=False)
-current = connection.cursor()
+cursor = connection.cursor()
 
 def with_commit(func):
     def inner(*args, **kwargs):
@@ -30,27 +31,29 @@ def close():
 
 def field(command, *values):
     cursor.execute(command, tuple(values))
-    if (fetch := cursor.fetch_one()) is not None:
+    if (fetch := cursor.fetchone()) is not None:
         return fetch[0]
 
 def record(command, *values):
     cursor.execute(command, tuple(values))
-    return cur.fetch_one()
+    return cursor.fetchone()
 
 def records(command, *values):
     cursor.execute(command, tuple(values))
-    return cur.fetch_all()
+    return cursor.fetchall()
 
 def column(command, *values):
     cursor.execute(command, tuple(values))
-    return [item[0] for item in cur.fetch_all()]
+    return [item[0] for item in cursor.fetchall()]
 
 def execute(command, *values):
     cursor.execute(command, tuple(values))
 
-def multi_execute(command, *values):
-    cursor.execute_many(command, valueset)
+def multiexec(command, *values):
+    cursor.executemany(command, valueset)
 
-def script_execute(path):
+def scriptexec(path):
     with open(path, "r", encoding="utf-8") as script:
-        cursor.execute_script(script.read())
+        cursor.executescript(script.read())
+
+build()

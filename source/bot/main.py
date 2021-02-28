@@ -17,8 +17,9 @@ class Bot(Base):
         self.PREFIX = PREFIX
         self.ready = False
         self.guild = None
-        self.scheduler.start()
+        self.scheduler = AsyncIOScheduler()
 
+        database.autosave(self.scheduler)
         super().__init__(
             command_prefix=PREFIX, 
             owner_id=OWNER_ID, 
@@ -42,6 +43,8 @@ class Bot(Base):
         if not self.ready:
             self.ready = True
             self.guild = self.get_guild(GUILD_ID)
+            self.scheduler.start()
+
             print("Bot is ready.")
         else:
             print("Bot reconnected.")
