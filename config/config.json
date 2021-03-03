@@ -1,6 +1,6 @@
 {
-	"@TOKEN@": "Your TOKEN",
+	"@TOKEN@": "Your Token",
 	"@PREFIX@": "Your Prefix",
 	"@OWNER_ID@": "Your Owner ID",
-    "@GUILD_ID@": "Your Guild ID"
+    	"@GUILD_ID@": "Your Guild ID"
 }
