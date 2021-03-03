@@ -4,13 +4,28 @@ from discord import Intents
 from discord import Embed
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from ..database import database
+import json
 
-# Prefix for chat commands
-PREFIX = "."
-OWNER_ID = [305379360452640778]
-# User ID from Discord
-# Guild (server) ID from Discord
-GUILD_ID = 528544644678680576
+# Change your variables in config file
+try:
+    with open("./config/config.json", "r") as config_file:
+        config = json.load(config_file)
+        TOKEN = config["@TOKEN@"]
+        PREFIX = config["@PREFIX@"]
+        OWNER_ID = config["@OWNER_ID@"]
+        GUILD_ID = config["@GUILD_ID@"]
+except IOError:
+    print("Config file was not found.")
+    input()
+    raise
+except KeyError:
+    print("Invalid config variable.")
+    input()
+    raise
+except:
+    print("An unknown error occured.")
+    input()
+    raise
 
 class Bot(Base):
     def __init__(self):
@@ -27,8 +42,7 @@ class Bot(Base):
         )
     
     def run(self):
-        with open("./config/TOKEN.txt", "r", encoding="utf-8") as token_file:
-            self.TOKEN = token_file.read()
+        self.TOKEN = TOKEN
 
         print("Bot is active...")
         super().run(self.TOKEN, reconnect=True)
