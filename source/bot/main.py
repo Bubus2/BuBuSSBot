@@ -4,6 +4,7 @@ from discord import Intents
 from discord import Embed
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from ..database import database
+from glob import glob
 import json
 
 # Change your variables in config file
@@ -27,6 +28,9 @@ except:
     input()
     raise
 
+# Adding path to every .py file in cogs directory
+COGS = [path.split("\\")[-1][:-3] for path in glob("./source/cogs/*.py")]
+
 class Bot(Base):
     def __init__(self):
         self.PREFIX = PREFIX
@@ -44,6 +48,9 @@ class Bot(Base):
     def run(self):
         self.TOKEN = TOKEN
 
+        print("Loading cogs...")
+        self.cog_setup()
+
         print("Bot is active...")
         super().run(self.TOKEN, reconnect=True)
     
@@ -55,14 +62,19 @@ class Bot(Base):
 
     async def on_ready(self):
         if not self.ready:
-            self.ready = True
             self.guild = self.get_guild(GUILD_ID)
             self.scheduler.start()
-
+            self.ready = True
             print("Bot is ready.")
         else:
             print("Bot reconnected.")
 
+    def cog_setup(self):
+            for cog in COGS:
+                self.load_extension(f"source.cogs.{cog}")
+                print(f"{cog} loaded.")
+            print("All cogs loaded.")
+        
     #////////// Error Handling ///////////
     async def on_error(self, error, *args, **kwargs):
         if error == "on_command_error":
