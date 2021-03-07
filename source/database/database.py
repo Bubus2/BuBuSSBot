@@ -2,7 +2,7 @@ from sqlite3 import connect
 from os.path import isfile
 from apscheduler.triggers.cron import CronTrigger
 
-DB_PATH = "./data/database/database.sqlite3"
+DB_PATH = "./data/database/database.db"
 BUILD_PATH = "./data/database/build.sql"
 
 # we don't use connection pool
