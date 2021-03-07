@@ -1,4 +1,4 @@
 *.sqlite3
 *db-journal
 __pycache__
-config/TOKEN.txt
+*.json
